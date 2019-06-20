@@ -17,14 +17,11 @@ export default class App extends Component {
     };
 
     initState = () => {
-        api.getInitialSettings()
-            .then(result => {
-                const {proxySettings, toolbarSettings} = result;
-                this.setState(state => ({
-                    isEnableProxy: proxySettings || false,
-                    enableToolbar: toolbarSettings || false
-                }));
-            })
+        const initialSettings = api.getInitialSettings();
+        console.log('initialSettings',initialSettings);
+        this.setState(state => ({
+            ...initialSettings
+        }));
     };
 
 
@@ -52,7 +49,7 @@ export default class App extends Component {
     }
 
     render() {
-        console.log(this.state.enableProxy);
+        console.log("this.state",this.state);
 
         return (
             <div className="popup-wrapper">
@@ -60,13 +57,13 @@ export default class App extends Component {
                 <div className="popup-signals__badge">3</div>
                 <Tabs>
                     <div label="Новости">
-                        <News />
+                        <News/>
                     </div>
                     <div label="Сигналы">
-                       <Signals />
+                        <Signals/>
                     </div>
                     <div label="Профиль">
-                        <Profile />
+                        <Profile/>
                     </div>
                     <div label="Настройки">
                         <Settings

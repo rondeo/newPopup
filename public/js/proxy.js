@@ -4,7 +4,7 @@
 
 function ProxyModule() {
     this.proxyId = 0;
-    this.isActive = false;
+    this.isActive = true;
     this.inProgress = false;
     this.targetUrl = '';
     this.serversSource = [];
@@ -188,13 +188,13 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 
-chrome.storage.local.get(['proxyIsActive'], function (result) {
-    proxyModule.setIsActive(result.proxyIsActive);
-
-    if (result.proxyIsActive) {
-        handleChangeProxy();
-    }
-});
+// chrome.storage.local.get(['proxyIsActive'], function (result) {
+//     proxyModule.setIsActive(result.proxyIsActive);
+//
+//     if (result.proxyIsActive) {
+//         handleChangeProxy();
+//     }
+// });
 
 
 // setInterval(function () {

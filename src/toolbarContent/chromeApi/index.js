@@ -30,7 +30,7 @@ export const toggleVideo = (cond) => {
 
 export const closeToolbar = () => {
     chrome.runtime.sendMessage({
-        cmd: 'toggleWidget-mmCrExt'
+        cmd: 'request-toggleWidget-mmCrExt'
     })
 };
 
