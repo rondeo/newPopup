@@ -4,10 +4,7 @@ import './signalsItem.less';
 const SignalsItem = () => {
     return (
         <div className="popup-signals__item">
-            FX
-            USD/TRY
-            4h
-            Channel Up
+            название инструмента 15m Triangle 06/14 13:30 Buy Details
         </div>
     );
 };

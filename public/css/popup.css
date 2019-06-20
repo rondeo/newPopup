@@ -29,10 +29,30 @@ body {
 }
 .popup-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   height: 2rem;
   margin-right: 1rem;
+}
+.popup-news__badge {
+  position: absolute;
+  left: 100px;
+  top: 8px;
+  font-size: 10px;
+  color: #ffffff;
+  padding: 2px 5px;
+  border-radius: 5px;
+  background-color: #008b00;
+}
+.popup-signals__badge {
+  position: absolute;
+  left: 220px;
+  top: 8px;
+  font-size: 10px;
+  color: #ffffff;
+  padding: 2px 5px;
+  border-radius: 5px;
+  background-color: #008b00;
 }
 .popup-tab {
   outline: none;
@@ -106,4 +126,96 @@ body {
   padding: 1em;
   margin-bottom: 0.5em;
   border: 1px solid #aaa;
+}
+.popup-profile {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #aaa;
+  border-top: none;
+}
+.input {
+  width: 90%;
+  border: 1px solid #aaa;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+.popup-login {
+  flex: 1;
+  padding: 0.5em;
+}
+.popup-login__body {
+  height: 100%;
+  display: flex;
+  margin-top: 2em;
+}
+.popup-login .popup-logo {
+  margin: 0 2em 0 1em;
+}
+.popup-login .popup-logo img {
+  width: 80px;
+}
+.popup-login .popup-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.popup-login .popup-form label {
+  padding-bottom: 0.2em;
+}
+.popup-login .popup-form__email {
+  width: 90%;
+  border: 1px solid #aaa;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+.popup-login .popup-form__password {
+  width: 90%;
+  border: 1px solid #aaa;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+.popup-login .popup-form__submit {
+  width: 90%;
+  border: 1px solid #aaa;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+.popup-login .popup-login__restore {
+  border: 0;
+  outline: 0;
+  background: none;
+  color: #369dce;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-right: 3em;
+}
+.popup-login .popup-login__restore:hover {
+  color: #1a4159;
+}
+.popup-profile__data {
+  padding: 0.5em;
+}
+.popup-settings {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #aaa;
+  border-top: none;
+  padding: 0.5em;
+}
+.popup-settings__toolbar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.popup-settings__toolbar label {
+  margin-top: 1em;
+}
+.popup-settings__toolbar input[type=checkbox] {
+  margin-right: 0.5em;
+}
+.popup-settings__filter {
+  flex: 2;
 }

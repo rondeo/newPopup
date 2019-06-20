@@ -1,0 +1,60 @@
+.input{
+  width: 90%;
+  border: 1px solid #aaa;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.popup-login{
+  flex: 1;
+  padding: 0.5em;
+
+  &__body{
+    height: 100%;
+    display: flex;
+    margin-top: 2em;
+
+  }
+  .popup-logo{
+    margin: 0 2em 0 1em;
+  }
+  .popup-logo img{
+    width: 80px;
+  }
+  .popup-form{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    label{
+      padding-bottom: 0.2em;
+    }
+  }
+
+  .popup-form__email{
+    .input;
+  }
+
+  .popup-form__password{
+    .input;
+  }
+
+  .popup-form__submit{
+    .input;
+    cursor: pointer;
+  }
+  .popup-login__restore{
+    border: 0;
+    outline: 0;
+    background: none;
+    color: #369dce;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-right: 3em;
+
+    &:hover{
+      color: #1a4159;
+    }
+  }
+}
+

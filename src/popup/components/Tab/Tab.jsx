@@ -11,12 +11,14 @@ const Tab = props => {
     );
 
     return (
+        <React.Fragment>
         <button
             className={getTabStyle}
             onClick={()=> onClickTabItem(label)}
         >
             {label}
         </button>
+        </React.Fragment>
     );
 }
 

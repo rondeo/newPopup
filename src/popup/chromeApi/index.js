@@ -10,8 +10,8 @@ export const getProxySettings = () => {
 export const getToolbarSettings = () => {
     return new Promise(resolve => {
         chrome.storage.local.get(['mmCrExtSettings'], result => {
-            console.log(result);
-            resolve(result.mmCrExtSettings.enableToolbar);
+            // console.log(result);
+            resolve(result.mmCrExtSettings.enableToolbar );
         });
     })
 };
@@ -25,9 +25,10 @@ export const getCurrentTab = () => {
 };
 
 export const getInitialSettings = async () => {
+    const bg = chrome.extension.getBackgroundPage();
+    console.log(bg.settings);
     const proxySettings = await getProxySettings();
     const toolbarSettings = await getToolbarSettings();
-
     return {
         proxySettings: proxySettings,
         toolbarSettings: toolbarSettings
@@ -44,12 +45,11 @@ export const toggleProxy = cond => {
 
     if (cond) {
         var cmd = 'toggle-proxy-isActive-true';
-        chrome.browserAction.setBadgeText({text: 'P'});
         chrome.browserAction.setBadgeBackgroundColor({color: "#008b00"});
 
     } else {
         cmd = 'toggle-proxy-isActive-false';
-        chrome.browserAction.setBadgeText({text: ''});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#aaaaaa"});
     }
     chrome.runtime.sendMessage({
         cmd: cmd,

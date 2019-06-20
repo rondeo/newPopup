@@ -1,9 +1,18 @@
+
+
+
 (function () {
 
     // Settings
 
     var settings = {
         enableToolbar: false,
+        toolbarPosition: 'top',
+        isEnableProxy: true,
+        newsFilter: [],
+        toolbarFilter: [],
+        iconSrc: './img/icon128.png',
+        iconGraySrc: './img/icon128_gray.png',
     };
 
     var icon = './img/icon128.png';
@@ -13,11 +22,9 @@
 
     // init Settings
     var initSettings = function () {
-
         chrome.storage.local.get('mmCrExtSettings', function (data) {
             data.mmCrExtSettings && (settings = data.mmCrExtSettings);
         });
-
 
     };
 
@@ -61,6 +68,11 @@
         animation.flipHorizontalChange(path);
     };
 
+    var setBadge = function () {
+        var badgeColor = settings.isEnableProxy ? '#008b00' : '#aaaaaa';
+        chrome.browserAction.setBadgeText({text: 'P'});
+        chrome.browserAction.setBadgeBackgroundColor({color: badgeColor});
+    }
 
     // toolbar Toggle
 
@@ -80,11 +92,21 @@
         });
     };
 
+    // Listeners
+
+    chrome.runtime.onInstalled.addListener(function (details) {
+        setSettings(settings);
+    });
+
+
+
+
     // init
 
     var init = function () {
         initSettings();
         initMessaging();
+        setBadge();
         animation.set();
     };
 
@@ -100,6 +122,8 @@
     // chrome.browserAction.setTitle({
     //     title:'it works!'
     //     });
+
+
 })();
 
 
@@ -343,6 +367,7 @@ function iconAnimator(strPath) {
                 icon = newIcon;
             }
         }
+
         Do();
     };
 }
