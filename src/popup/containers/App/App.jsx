@@ -10,46 +10,51 @@ import Settings from '../../components/Settings';
 
 export default class App extends Component {
 
-    state = {
-        enableToolbar: config.enableToolbar,
-        isEnableProxy: config.isEnableProxy,
-        url: config.src
-    };
+    state = {};
 
     initState = () => {
         const initialSettings = api.getInitialSettings();
         console.log('initialSettings',initialSettings);
-        this.setState(state => ({
+        this.setState(prevState  => ({
             ...initialSettings
         }));
     };
 
+    handleFilterNewsChange = event => {
+        const filterName = event.target.name;
+        const isChecked = event.target.checked;
+
+        this.setState(prevState  => ({
+            [filterName]: isChecked
+        }));
+
+        api.toggleFilterNews(filterName);
+    };
 
     handleToolbarSwitch = () => {
         const isEnableToolbar = !this.state.enableToolbar;
-        this.setState(state => ({
+        this.setState(prevState  => ({
             enableToolbar: isEnableToolbar
         }));
 
         api.toggleToolbar();
     };
 
-    handleToggleChange = () => {
-        const isEnableProxy = !this.state.isEnableProxy;
-        this.setState(state => ({
-            isEnableProxy: isEnableProxy
-        }));
-
-        api.toggleProxy(isEnableProxy);
-    };
 
     componentDidMount() {
         this.initState();
-
     }
 
     render() {
-        console.log("this.state",this.state);
+        console.log("render.state",this.state);
+
+        const {
+            filterStock,
+            enableToolbar,
+            filterCurrency,
+            economicalEvent,
+            filterCommodities,
+        } = this.state;
 
         return (
             <div className="popup-wrapper">
@@ -57,7 +62,13 @@ export default class App extends Component {
                 <div className="popup-signals__badge">3</div>
                 <Tabs>
                     <div label="Новости">
-                        <News/>
+                        <News
+                            filterStock={filterStock}
+                            filterCurrency={filterCurrency}
+                            economicalEvent={economicalEvent}
+                            filterCommodities={filterCommodities}
+                            handleFilterNewsChange = {this.handleFilterNewsChange}
+                        />
                     </div>
                     <div label="Сигналы">
                         <Signals/>
@@ -67,8 +78,8 @@ export default class App extends Component {
                     </div>
                     <div label="Настройки">
                         <Settings
-                            enableToolbar={this.state.enableToolbar}
-                            handleToolbarSwitch={this.handleToolbarSwitch}
+                            enableToolbar={enableToolbar}
+                            handleToolbarSwitch = {this.handleToolbarSwitch}
                         />
                     </div>
                 </Tabs>
@@ -76,14 +87,6 @@ export default class App extends Component {
                     <button>
                         Выйти из учетной записи
                     </button>
-                    <label htmlFor="proxyCheckbox">
-                        <input type="checkbox"
-                               id="proxyCheckbox"
-                               onChange={this.handleToggleChange}
-                               checked={this.state.isEnableProxy}
-                        />
-                        включить впн
-                    </label>
                 </div>
             </div>
         )

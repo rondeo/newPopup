@@ -60,38 +60,6 @@ body {
   height: 40px !important;
   width: 40px !important;
 }
-.mmCrExt-div-video {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 5px;
-}
-.mmCrExt-btn-video {
-  font: 16px "Arial";
-  text-decoration: none;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: #fff;
-  border-radius: 34px;
-  border: solid 1px #449bdb;
-  padding: 4px 5px 2px 15px;
-  cursor: pointer;
-  width: 160px;
-  height: 30px;
-  outline: 0;
-  background: #61a8db;
-}
-.mmCrExt-btn-video:hover {
-  background: #449bdb;
-}
-.mmCrExt-btn-video img {
-  margin-left: 5px;
-  transition: all 0.1s ease-out;
-}
-.mmCrExt-btn-video .arrowDown {
-  transform: rotate(90deg);
-}
 .mmCrExt-economical-events:hover {
   background: rgba(97, 168, 219, 0.22) !important;
   text-decoration: underline !important;

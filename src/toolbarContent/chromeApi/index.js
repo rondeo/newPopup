@@ -1,5 +1,5 @@
 export const init = () => {
-    window.parent.postMessage({cmd: 'widget.ready-mmCrExt'}, '*');
+    chrome.runtime.sendMessage({cmd: 'widget.ready-mmCrExt'});
 };
 
 export const dataListener = callback => {
@@ -16,16 +16,6 @@ export const updateDataEconEvents = () => {
 
 export const openNewTab = (newURL) => {
     chrome.tabs.create({url: newURL});
-};
-
-export const toggleVideo = (cond) => {
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id,
-            {
-                cmd: 'toggleVideo-mmCrExt',
-                data: cond
-            });
-    });
 };
 
 export const closeToolbar = () => {

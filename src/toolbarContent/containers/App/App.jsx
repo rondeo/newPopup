@@ -3,7 +3,6 @@ import "./app.less";
 import {config} from '../../config';
 import * as chromeApi from '../../chromeApi';
 import Brand from '../../components/brand';
-import Video from '../../components/Video';
 import Economical from '../../components/economicalEventsBlock';
 import KotirovkiBlock from '../../components/KotirovkiBlock';
 
@@ -15,7 +14,6 @@ class App extends Component {
         events: config.events,
         eventsArr: config.eventsArr,
         activeEvent: config.activeEvent,
-        isShowVideo: config.isShowVideo
     };
 
     updateState = (key, value) => {
@@ -108,9 +106,6 @@ class App extends Component {
                     quotes={quotes}
                     handleQuotesClick={this.handleQuotesClick}
                 />
-                {/*<Video*/}
-                {/*    isShowVideo={this.state.isShowVideo}*/}
-                {/*    handleVideoButton={this.handleVideoButton} />*/}
                 <Economical
                     events={eventsArr[activeEvent]}
                     handleEventsClick={this.handleEventsClick}

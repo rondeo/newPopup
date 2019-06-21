@@ -1,202 +1,80 @@
-// (function () {
-//
-//     // Settings
-//
-//     var settings = {
-//         enableToolbar: false,
-//         toolbarPosition: 'top',
-//         isEnableProxy: true,
-//         newsFilter: [],
-//         toolbarFilter: [],
-//         iconSrc: './img/icon128.png',
-//         iconGraySrc: './img/icon128_gray.png',
-//     };
-//
-//     var icon = './img/icon128.png';
-//     var iconGray = './img/icon128_gray.png';
-//     var animation = new iconAnimator(icon);
-//
-//
-//     // init Settings
-//     var initSettings = function () {
-//         chrome.storage.local.get('mmCrExtSettings', function (data) {
-//             data.mmCrExtSettings && (settings = data.mmCrExtSettings);
-//         });
-//
-//     };
-//
-//     var setSettings = function (settings) {
-//         chrome.storage.local.set({'mmCrExtSettings': settings});
-//     };
-//
-//     // init messaging
-//
-//     var initMessaging = function () {
-//         chrome.runtime.onMessage.addListener(
-//             function (request, sender, sendResponse) {
-//                 var cmd = request.cmd;
-//                 var data = request.data;
-//                 var tabId = (sender.tab || {}).id;
-//                 switch (cmd) {
-//
-//                     case 'tab.ready-mmCrExt':
-//                         chrome.tabs.sendMessage(tabId,
-//                             {
-//                                 cmd: 'toggleWidget-mmCrExt',
-//                                 data: settings.enableToolbar
-//                             });
-//                         break;
-//
-//                     case "toggleWidget-mmCrExt":
-//                         toolbarToggle();
-//                         break;
-//
-//                     default:
-//                         return
-//                 }
-//             });
-//     };
-//
-//     //icon
-//
-//     var setIcon = function (isOn, tabId) {
-//         var path = iconGray;
-//         if (isOn) path = icon;
-//         animation.flipHorizontalChange(path);
-//     };
-//
-//     var setBadge = function () {
-//         var badgeColor = settings.isEnableProxy ? '#008b00' : '#aaaaaa';
-//         chrome.browserAction.setBadgeText({text: 'P'});
-//         chrome.browserAction.setBadgeBackgroundColor({color: badgeColor});
-//     }
-//
-//     // toolbar Toggle
-//
-//     var toolbarToggle = function (tab) {
-//         settings.enableToolbar = !settings.enableToolbar;
-//         setIcon(settings.enableToolbar);
-//         setSettings(settings);
-//
-//         chrome.tabs.query({}, function (tabs) {
-//             for (var i = 0; i < tabs.length; i++) {
-//                 chrome.tabs.sendMessage(tabs[i].id,
-//                     {
-//                         cmd: 'toggleWidget-mmCrExt',
-//                         data: settings.enableToolbar
-//                     });
-//             }
-//         });
-//     };
-//
-//     // Listeners
-//
-//     chrome.runtime.onInstalled.addListener(function (details) {
-//         setSettings(settings);
-//     });
-//
-//
-//     // init
-//
-//     var init = function () {
-//         initSettings();
-//         initMessaging();
-//         setBadge();
-//         animation.set();
-//     };
-//
-//     init();
-//
-//
-// // animation.rotate();
-// // animation.flipHorizontal();
-// // animation.flipVertical();
-// // animation.pulse();
-// // animation.flipHorizontalChange("/img/icon128_gray.png");
-//
-//     // chrome.browserAction.setTitle({
-//     //     title:'it works!'
-//     //     });
-//
-//
-// })();
-
-
-// init messaging
-function initMessaging() {
-    chrome.runtime.onMessage.addListener(
-        function (request, sender, sendResponse) {
-            var cmd = request.cmd;
-            var data = request.data;
-            var tabId = (sender.tab || {}).id;
-            switch (cmd) {
-
-                case 'tab.ready-mmCrExt':
-                    chrome.tabs.sendMessage(tabId,
-                        {
-                            cmd: 'toggleWidget-mmCrExt',
-                            data: app.getSettings().enableToolbar
-                        });
-                    break;
-
-                case "request-toggleWidget-mmCrExt":
-                    console.log('case bg toggle')
-                    app.toolbarToggle();
-                    break;
-
-                default:
-                    return
-            }
-        });
+var settings = {
+    enableToolbar: false,
+    toolbarPosition: 'top',
+    filterStock: false,
+    filterCommodities: false,
+    filterCurrency: false,
+    toolbarFilter: [],
 };
+
+var iconSrc = '../img/icon128.png';
+var iconGraySrc = '../img/icon128_gray.png';
 
 
 var app = new App();
 app.init();
-initMessaging();
-handleChangeProxy();
+
+// init messaging
+chrome.runtime.onMessage.addListener(handleMessage);
+
+
+function handleMessage(request, sender, sendResponse) {
+    var cmd = request.cmd;
+    var data = request.data;
+    var tabId = (sender.tab || {}).id;
+
+    switch (cmd) {
+        case 'tab.ready-mmCrExt':
+            chrome.tabs.sendMessage(tabId,
+                {
+                    cmd: 'toggleWidget-mmCrExt',
+                    data: settings.enableToolbar
+                });
+            break;
+
+        case "request-toggleWidget-mmCrExt":
+            app.toggleToolbar();
+            break;
+
+        default:
+            return;
+    }
+}
 
 
 function App() {
+    var animator;
 
-    var settings = {
-        enableToolbar: false,
-        toolbarPosition: 'top',
-        isEnableProxy: true,
-        filterStock: false,
-        filterCommodities: false,
-        filterCurrency: false,
-        toolbarFilter: [],
-        iconSrc: './img/icon128.png',
-        iconGraySrc: './img/icon128_gray.png',
-    }
+    this.init = function () {
 
-    var animation;
+        animator = new iconAnimator(iconSrc);
+    };
 
     this.getSettings = function () {
         return settings;
-    }
+    };
 
     this.updateSettings = function (key, value) {
-        settings.settings[key] = value;
-    }
+        settings[key] = value;
+    };
 
     this.saveSettings = function () {
-        chrome.storage.local.set({'mmCrExtSettings': this.settings});
+        chrome.storage.local.set({'mmCrExtSettings': settings});
+    };
+
+    this.toggleFilterNews = function (filterName) {
+        settings[filterName] = !settings[filterName];
+        console.log('upd', filterName,  settings[filterName]);
     }
 
-
-
-
     // toolbar Toggle
-
-    this.toolbarToggle = function (tab) {
-        console.log('old toolb', settings.enableToolbar)
+    this.toggleToolbar = function () {
         settings.enableToolbar = !settings.enableToolbar;
-        var path = settings.enableToolbar ? settings.iconSrc : settings.iconGraySrc;
-        animation.flipHorizontalChange(path);
-        // this.setSettings(settings);
-        console.log('new toolb', settings.enableToolbar)
+
+        var path = settings.enableToolbar ? iconSrc : iconGraySrc;
+
+        animator.flipHorizontalChange(path);
+
         chrome.tabs.query({}, function (tabs) {
             for (var i = 0; i < tabs.length; i++) {
                 chrome.tabs.sendMessage(tabs[i].id,
@@ -208,35 +86,26 @@ function App() {
         });
     };
 
-    // Toggle Proxy
-    this.toggleProxy = function () {
-        settings.isEnableProxy = !settings.isEnableProxy;
-        setBadge(settings.isEnableProxy);
-
-    }
-
-
-    this.init = function () {
-        setBadge(settings.isEnableProxy);
-        animation = new iconAnimator(settings.iconSrc);
-    }
-;
 
     //badge
     function setBadge(cond) {
-        var badgeColor = cond ? '#008b00' : '#aaaaaa';
-        chrome.browserAction.setBadgeText({text: 'P'});
-        chrome.browserAction.setBadgeBackgroundColor({color: badgeColor});
+        // var badgeColor = cond ? '#008b00' : '#aaaaaa';
+        //
+        // chrome.browserAction.setBadgeText({text: 'P'});
+        // chrome.browserAction.setBadgeBackgroundColor({color: badgeColor});
     }
 }
 
 
+// icon Animation
 function iconAnimator(strPath) {
     var icon = document.createElement("img");
     icon.setAttribute('src', strPath);
+
     var canvas = document.createElement("canvas");
     canvas.setAttribute('width', '19');
     canvas.setAttribute('height', '19');
+
     var canvasContext = canvas.getContext('2d');
     var time = 0;
 

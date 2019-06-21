@@ -40,5 +40,4 @@ export const config = {
         DisplayConsensusColor: '',
     }],
     activeEvent: 0,
-    isShowVideo: false,
 };

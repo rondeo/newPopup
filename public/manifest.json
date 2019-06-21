@@ -1,6 +1,11 @@
 {
    "background": {
-      "scripts": [ "/js/proxyServers.js" , "/js/proxy.js", "/js/getDataMaxiMarket.js", "/js/background.js"]
+      "scripts": [
+         "/js/proxyServers.js",
+         "/js/proxy.js",
+         "/js/getDataMaxiMarket.js",
+         "/js/background.js"
+      ]
    },
    "browser_action": {
       "default_icon": "/img/icon128.png",
